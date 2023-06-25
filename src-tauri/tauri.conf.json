@@ -39,11 +39,11 @@
     },
     "windows": [
       {
-        "fullscreen": false,
-        "resizable": true,
-        "title": "mousetrap",
-        "width": 800,
-        "height": 600
+        "alwaysOnTop": true,
+        "focus": true,
+        "fullscreen": true,
+        "resizable": false,
+        "title": "mousetrap"
       }
     ]
   }
