@@ -43,7 +43,8 @@
         "focus": true,
         "fullscreen": true,
         "resizable": false,
-        "title": "mousetrap"
+        "title": "mousetrap",
+        "transparent": true
       }
     ]
   }
