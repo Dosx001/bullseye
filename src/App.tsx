@@ -32,6 +32,9 @@ function App() {
     window.addEventListener("blur", () => {
       tauwin.appWindow.hide()!;
     });
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") tauwin.appWindow.hide()!;
+    });
   });
   return (
     <div class="container">
