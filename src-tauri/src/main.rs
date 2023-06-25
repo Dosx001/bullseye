@@ -20,6 +20,12 @@ fn main() {
     let system_tray = tauri::SystemTray::new().with_menu(tray_menu);
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![greet])
+        .on_window_event(|event| {
+            if let tauri::WindowEvent::CloseRequested { api, .. } = event.event() {
+                event.window().hide().unwrap();
+                api.prevent_close();
+            }
+        })
         .system_tray(system_tray)
         .on_system_tray_event(|app, event| {
             if let tauri::SystemTrayEvent::MenuItemClick { id, .. } = event {
