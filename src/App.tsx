@@ -1,7 +1,13 @@
-import { createSignal } from "solid-js";
-import logo from "./assets/logo.svg";
+import { window } from "@tauri-apps/api";
+import {
+  isRegistered,
+  register,
+  unregister,
+} from "@tauri-apps/api/globalShortcut";
 import { invoke } from "@tauri-apps/api/tauri";
+import { createSignal, onMount } from "solid-js";
 import "./App.scss";
+import logo from "./assets/logo.svg";
 
 function App() {
   const [greetMsg, setGreetMsg] = createSignal("");
@@ -11,7 +17,19 @@ function App() {
     // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
     setGreetMsg(await invoke("greet", { name: name() }));
   }
-
+  onMount(() => {
+    const shortcut = "CmdOrCtrl+Super+m";
+    isRegistered(shortcut)
+      .then((reg) => {
+        if (reg) unregister(shortcut)!;
+      })
+      .finally(() => {
+        register(shortcut, () => {
+          window.appWindow.show()!;
+          window.appWindow.setFocus()!;
+        })!;
+      })!;
+  });
   return (
     <div class="container">
       <h1>Welcome to Tauri!</h1>
