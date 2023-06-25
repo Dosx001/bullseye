@@ -1,4 +1,4 @@
-import { window } from "@tauri-apps/api";
+import { window as tauwin } from "@tauri-apps/api";
 import {
   isRegistered,
   register,
@@ -25,10 +25,13 @@ function App() {
       })
       .finally(() => {
         register(shortcut, () => {
-          window.appWindow.show()!;
-          window.appWindow.setFocus()!;
+          tauwin.appWindow.show()!;
+          tauwin.appWindow.setFocus()!;
         })!;
       })!;
+    window.addEventListener("blur", () => {
+      tauwin.appWindow.hide()!;
+    });
   });
   return (
     <div class="container">

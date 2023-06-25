@@ -21,6 +21,7 @@
         "open": true
       },
       "window": {
+        "hide": true,
         "show": true,
         "setFocus": true
       }
