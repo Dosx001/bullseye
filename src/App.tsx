@@ -92,6 +92,18 @@ function App() {
         }
         case "KeyR":
           reset();
+          break;
+        case "Space": {
+          const rect = center.querySelector("span")!.getClientRects()[0];
+          reset();
+          tauwin.appWindow.hide().then(() => {
+            invoke("mouse_click", {
+              x: Math.floor(rect.x),
+              y: Math.floor(rect.y),
+            })!;
+          })!;
+          break;
+        }
       }
     });
   });
