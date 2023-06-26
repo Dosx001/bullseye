@@ -48,7 +48,7 @@ function App() {
     });
     window.addEventListener("keydown", (e) => {
       switch (e.key) {
-        case "Escape":
+        case "q":
           tauwin.appWindow.hide()!;
           break;
         case "h":
