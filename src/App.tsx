@@ -38,6 +38,13 @@ function App() {
     });
     setShow(false);
   };
+  const getPosition = () => {
+    const rect = center.querySelector("span")!.getClientRects()[0];
+    return {
+      x: Math.floor(rect.x),
+      y: Math.floor(rect.y),
+    };
+  };
   onMount(() => {
     const shortcut = "CmdOrCtrl+Super+m";
     isRegistered(shortcut)
@@ -81,11 +88,7 @@ function App() {
           setShow(true);
           break;
         case "KeyM": {
-          const rect = center.querySelector("span")!.getClientRects()[0];
-          invoke("move_mouse", {
-            x: Math.floor(rect.x),
-            y: Math.floor(rect.y),
-          })!;
+          invoke("move_mouse", getPosition())!;
           reset();
           tauwin.appWindow.hide()!;
           break;
@@ -94,13 +97,9 @@ function App() {
           reset();
           break;
         case "Space": {
-          const rect = center.querySelector("span")!.getClientRects()[0];
-          reset();
           tauwin.appWindow.hide().then(() => {
-            invoke("mouse_click", {
-              x: Math.floor(rect.x),
-              y: Math.floor(rect.y),
-            })!;
+            invoke("mouse_click", getPosition())!;
+            reset();
           })!;
           break;
         }
