@@ -4,7 +4,7 @@ import {
   register,
   unregister,
 } from "@tauri-apps/api/globalShortcut";
-import Bubble from "components/Bubble";
+import Region from "components/Region";
 import { createSignal, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
 
@@ -92,23 +92,13 @@ function App() {
         left: `${size.x.toString()}px`,
       }}
     >
-      <div ref={top} class="h-1/4 w-full border border-green-500">
-        <Bubble text="k" show={show()} />
-      </div>
+      <Region ref={top} height={false} show={show()} text="k" />
       <div class="flex h-1/2 w-full">
-        <div ref={left} class="h-full w-full border border-green-500">
-          <Bubble text="h" show={show()} />
-        </div>
-        <div ref={center} class="h-full w-full border border-green-500">
-          <Bubble text=";" show={show()} />
-        </div>
-        <div ref={right} class="h-full w-full border border-green-500">
-          <Bubble text="l" show={show()} />
-        </div>
+        <Region ref={left} height={true} show={show()} text="h" />
+        <Region ref={center} height={true} show={show()} text=";" />
+        <Region ref={right} height={true} show={show()} text="l" />
       </div>
-      <div ref={bottom} class="h-1/4 w-full border border-green-500">
-        <Bubble text="j" show={show()} />
-      </div>
+      <Region ref={bottom} height={false} show={show()} text="j" />
     </div>
   );
 }
