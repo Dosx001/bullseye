@@ -5,7 +5,7 @@ import {
   unregister,
 } from "@tauri-apps/api/globalShortcut";
 import Bubble from "components/Bubble";
-import { onMount } from "solid-js";
+import { createSignal, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
 
 function App() {
@@ -14,6 +14,7 @@ function App() {
     center!: HTMLDivElement,
     right!: HTMLDivElement,
     bottom!: HTMLDivElement;
+  const [show, setShow] = createSignal(false);
   const [size, setSize] = createStore({
     width: window.screen.width,
     height: window.screen.height,
@@ -52,20 +53,26 @@ function App() {
           break;
         case "h":
           updateSize(left);
+          setShow(true);
           break;
         case "j":
           updateSize(bottom);
+          setShow(true);
           break;
         case "k":
           updateSize(top);
+          setShow(true);
           break;
         case "l":
           updateSize(right);
+          setShow(true);
           break;
         case ";":
           updateSize(center);
+          setShow(true);
           break;
         case "r":
+          setShow(false);
           setSize({
             width: window.screen.width,
             height: window.screen.height,
@@ -86,21 +93,21 @@ function App() {
       }}
     >
       <div ref={top} class="h-1/4 w-full border border-green-500">
-        <Bubble text="k" />
+        <Bubble text="k" show={show()} />
       </div>
       <div class="flex h-1/2 w-full">
         <div ref={left} class="h-full w-full border border-green-500">
-          <Bubble text="h" />
+          <Bubble text="h" show={show()} />
         </div>
         <div ref={center} class="h-full w-full border border-green-500">
-          <Bubble text=";" />
+          <Bubble text=";" show={show()} />
         </div>
         <div ref={right} class="h-full w-full border border-green-500">
-          <Bubble text="l" />
+          <Bubble text="l" show={show()} />
         </div>
       </div>
       <div ref={bottom} class="h-1/4 w-full border border-green-500">
-        <Bubble text="j" />
+        <Bubble text="j" show={show()} />
       </div>
     </div>
   );
