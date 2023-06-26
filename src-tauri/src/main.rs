@@ -1,12 +1,7 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+use mouse_rs::Mouse;
 use tauri::{CustomMenuItem, Manager};
-
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
 
 #[tauri::command]
 fn debug() -> bool {
@@ -20,6 +15,12 @@ fn debug() -> bool {
     }
 }
 
+#[tauri::command]
+fn move_mouse(x: i32, y: i32) {
+    let mouse = Mouse::new();
+    mouse.move_to(x, y).expect("Unable to move mouse");
+}
+
 fn main() {
     let open = CustomMenuItem::new("open".to_string(), "Open");
     let hide = CustomMenuItem::new("hide".to_string(), "Hide");
@@ -31,7 +32,7 @@ fn main() {
         .add_item(quit);
     let system_tray = tauri::SystemTray::new().with_menu(tray_menu);
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet, debug])
+        .invoke_handler(tauri::generate_handler![debug, move_mouse])
         .on_window_event(|event| {
             if let tauri::WindowEvent::CloseRequested { api, .. } = event.event() {
                 event.window().hide().unwrap();

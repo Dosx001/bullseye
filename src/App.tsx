@@ -29,6 +29,15 @@ function App() {
       y: el.getClientRects()[0].y,
     });
   };
+  const reset = () => {
+    setSize({
+      width: window.screen.width,
+      height: window.screen.height,
+      x: 0,
+      y: 0,
+    });
+    setShow(false);
+  };
   onMount(() => {
     const shortcut = "CmdOrCtrl+Super+m";
     isRegistered(shortcut)
@@ -71,14 +80,18 @@ function App() {
           updateSize(center);
           setShow(true);
           break;
+        case "m": {
+          const rect = center.querySelector("span")!.getClientRects()[0];
+          invoke("move_mouse", {
+            x: Math.floor(rect.x),
+            y: Math.floor(rect.y),
+          })!;
+          reset();
+          tauwin.appWindow.hide()!;
+          break;
+        }
         case "r":
-          setShow(false);
-          setSize({
-            width: window.screen.width,
-            height: window.screen.height,
-            x: 0,
-            y: 0,
-          });
+          reset();
       }
     });
   });
