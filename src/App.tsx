@@ -56,31 +56,31 @@ function App() {
       })!;
     });
     window.addEventListener("keydown", (e) => {
-      switch (e.key) {
-        case "q":
+      switch (e.code) {
+        case "KeyQ":
           tauwin.appWindow.hide()!;
           break;
-        case "h":
+        case "KeyH":
           updateSize(left);
           setShow(true);
           break;
-        case "j":
+        case "KeyJ":
           updateSize(bottom);
           setShow(true);
           break;
-        case "k":
+        case "KeyK":
           updateSize(top);
           setShow(true);
           break;
-        case "l":
+        case "KeyL":
           updateSize(right);
           setShow(true);
           break;
-        case ";":
+        case "Semicolon":
           updateSize(center);
           setShow(true);
           break;
-        case "m": {
+        case "KeyM": {
           const rect = center.querySelector("span")!.getClientRects()[0];
           invoke("move_mouse", {
             x: Math.floor(rect.x),
@@ -90,7 +90,7 @@ function App() {
           tauwin.appWindow.hide()!;
           break;
         }
-        case "r":
+        case "KeyR":
           reset();
       }
     });
