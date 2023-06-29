@@ -38,8 +38,8 @@ function App() {
     });
     setShow(false);
   };
-  const getPosition = () => {
-    const rect = center.querySelector("span")!.getClientRects()[0];
+  const getPosition = (ref: HTMLDivElement) => {
+    const rect = ref.querySelector("span")!.getClientRects()[0];
     return {
       x: Math.floor(rect.x),
       y: Math.floor(rect.y),
@@ -76,7 +76,7 @@ function App() {
         setShow(true);
         break;
       case "KeyM": {
-        invoke("move_mouse", getPosition())!;
+        invoke("move_mouse", getPosition(center))!;
         reset();
         tauwin.appWindow.hide()!;
         break;
@@ -86,7 +86,7 @@ function App() {
         break;
       case "Space": {
         tauwin.appWindow.hide().then(() => {
-          invoke("mouse_click", getPosition())!;
+          invoke("mouse_click", getPosition(center))!;
           reset();
         })!;
         break;
