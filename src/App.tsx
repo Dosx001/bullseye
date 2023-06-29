@@ -71,10 +71,6 @@ function App() {
         updateSize(right);
         setShow(true);
         break;
-      case "Semicolon":
-        updateSize(center);
-        setShow(true);
-        break;
       case "KeyM": {
         invoke("move_mouse", getPosition(center))!;
         reset();
@@ -85,10 +81,15 @@ function App() {
         reset();
         break;
       case "Space": {
-        tauwin.appWindow.hide().then(() => {
-          invoke("mouse_click", getPosition(center))!;
-          reset();
-        })!;
+        if (e.altKey) {
+          updateSize(center);
+          setShow(true);
+        } else {
+          tauwin.appWindow.hide().then(() => {
+            invoke("mouse_click", getPosition(center))!;
+            reset();
+          })!;
+        }
         break;
       }
     }
