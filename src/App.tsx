@@ -50,26 +50,33 @@ function App() {
       if (!res) tauwin.appWindow.hide()!;
     })!;
   };
+  const hotkey = (alt: boolean, ref: HTMLDivElement) => {
+    if (alt) {
+      updateSize(ref);
+      setShow(true);
+    } else {
+      tauwin.appWindow.hide().then(() => {
+        invoke("mouse_click", getPosition(ref))!;
+        reset();
+      })!;
+    }
+  };
   const handleKey = (e: KeyboardEvent) => {
     switch (e.code) {
       case "KeyQ":
         tauwin.appWindow.hide()!;
         break;
       case "KeyH":
-        updateSize(left);
-        setShow(true);
+        hotkey(e.altKey, left);
         break;
       case "KeyJ":
-        updateSize(bottom);
-        setShow(true);
+        hotkey(e.altKey, bottom);
         break;
       case "KeyK":
-        updateSize(top);
-        setShow(true);
+        hotkey(e.altKey, top);
         break;
       case "KeyL":
-        updateSize(right);
-        setShow(true);
+        hotkey(e.altKey, right);
         break;
       case "KeyM": {
         invoke("move_mouse", getPosition(center))!;
@@ -81,15 +88,7 @@ function App() {
         reset();
         break;
       case "Space": {
-        if (e.altKey) {
-          updateSize(center);
-          setShow(true);
-        } else {
-          tauwin.appWindow.hide().then(() => {
-            invoke("mouse_click", getPosition(center))!;
-            reset();
-          })!;
-        }
+        hotkey(e.altKey, center);
         break;
       }
     }
@@ -126,7 +125,7 @@ function App() {
       <Region ref={top} height={false} show={show()} text="k" />
       <div class="flex h-1/2 w-full">
         <Region ref={left} height={true} show={show()} text="h" />
-        <Region ref={center} height={true} show={show()} text=";" />
+        <Region ref={center} height={true} show={true} text="" />
         <Region ref={right} height={true} show={show()} text="l" />
       </div>
       <Region ref={bottom} height={false} show={show()} text="j" />
