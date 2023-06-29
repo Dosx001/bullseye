@@ -25,10 +25,7 @@ fn move_mouse(x: i32, y: i32) {
 fn mouse_click(x: i32, y: i32) {
     let mouse = Mouse::new();
     mouse.move_to(x, y).expect("Unable to move mouse");
-    mouse.press(&Keys::LEFT).expect("Unable to press button");
-    mouse
-        .release(&Keys::LEFT)
-        .expect("Unable to release button");
+    mouse.click(&Keys::LEFT).expect("Unable to click button");
 }
 
 fn main() {
