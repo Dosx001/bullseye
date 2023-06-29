@@ -5,7 +5,7 @@ import {
   unregister,
 } from "@tauri-apps/api/globalShortcut";
 import Region from "components/Region";
-import { createSignal, onMount } from "solid-js";
+import { createSignal, onCleanup, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
 
 function App() {
@@ -45,6 +45,54 @@ function App() {
       y: Math.floor(rect.y),
     };
   };
+  const blur = () => {
+    invoke("debug").then((res) => {
+      if (!res) tauwin.appWindow.hide()!;
+    })!;
+  };
+  const handleKey = (e: KeyboardEvent) => {
+    switch (e.code) {
+      case "KeyQ":
+        tauwin.appWindow.hide()!;
+        break;
+      case "KeyH":
+        updateSize(left);
+        setShow(true);
+        break;
+      case "KeyJ":
+        updateSize(bottom);
+        setShow(true);
+        break;
+      case "KeyK":
+        updateSize(top);
+        setShow(true);
+        break;
+      case "KeyL":
+        updateSize(right);
+        setShow(true);
+        break;
+      case "Semicolon":
+        updateSize(center);
+        setShow(true);
+        break;
+      case "KeyM": {
+        invoke("move_mouse", getPosition())!;
+        reset();
+        tauwin.appWindow.hide()!;
+        break;
+      }
+      case "KeyR":
+        reset();
+        break;
+      case "Space": {
+        tauwin.appWindow.hide().then(() => {
+          invoke("mouse_click", getPosition())!;
+          reset();
+        })!;
+        break;
+      }
+    }
+  };
   onMount(() => {
     const shortcut = "CmdOrCtrl+Super+m";
     isRegistered(shortcut)
@@ -57,54 +105,12 @@ function App() {
           tauwin.appWindow.setFocus()!;
         })!;
       })!;
-    window.addEventListener("blur", () => {
-      invoke("debug").then((res) => {
-        if (!res) tauwin.appWindow.hide()!;
-      })!;
-    });
-    window.addEventListener("keydown", (e) => {
-      switch (e.code) {
-        case "KeyQ":
-          tauwin.appWindow.hide()!;
-          break;
-        case "KeyH":
-          updateSize(left);
-          setShow(true);
-          break;
-        case "KeyJ":
-          updateSize(bottom);
-          setShow(true);
-          break;
-        case "KeyK":
-          updateSize(top);
-          setShow(true);
-          break;
-        case "KeyL":
-          updateSize(right);
-          setShow(true);
-          break;
-        case "Semicolon":
-          updateSize(center);
-          setShow(true);
-          break;
-        case "KeyM": {
-          invoke("move_mouse", getPosition())!;
-          reset();
-          tauwin.appWindow.hide()!;
-          break;
-        }
-        case "KeyR":
-          reset();
-          break;
-        case "Space": {
-          tauwin.appWindow.hide().then(() => {
-            invoke("mouse_click", getPosition())!;
-            reset();
-          })!;
-          break;
-        }
-      }
-    });
+    window.addEventListener("blur", blur);
+    window.addEventListener("keydown", handleKey);
+  });
+  onCleanup(() => {
+    window.removeEventListener("keydown", handleKey);
+    window.removeEventListener("blur", blur);
   });
   return (
     <div
