@@ -65,6 +65,7 @@ function App() {
     switch (e.code) {
       case "KeyQ":
         tauwin.appWindow.hide()!;
+        reset();
         break;
       case "KeyH":
         hotkey(e.altKey, left);
