@@ -15,12 +15,14 @@ function App() {
     right!: HTMLDivElement,
     bottom!: HTMLDivElement;
   const [show, setShow] = createSignal(false);
+  const [index, setIndex] = createSignal(-1);
   const [size, setSize] = createStore({
     width: window.screen.width,
     height: window.screen.height,
     x: 0,
     y: 0,
   });
+  const [history, setHistory] = createSignal<(typeof size)[]>([]);
   const updateSize = (el: HTMLDivElement) => {
     setSize({
       width: el.clientWidth,
@@ -30,6 +32,8 @@ function App() {
     });
   };
   const reset = () => {
+    setIndex(-1);
+    setHistory([]);
     setSize({
       width: window.screen.width,
       height: window.screen.height,
@@ -52,6 +56,12 @@ function App() {
   };
   const hotkey = (alt: boolean, ref: HTMLDivElement) => {
     if (alt) {
+      setIndex(index() + 1);
+      setHistory((v) => {
+        if (history.length === index()) v.push({ ...size });
+        else v[index()] = { ...size };
+        return Array.from(v);
+      });
       updateSize(ref);
       setShow(true);
     } else {
@@ -85,6 +95,12 @@ function App() {
         tauwin.appWindow.hide()!;
         break;
       }
+      case "KeyU":
+        if (index() === -1) return;
+        setSize(history()[index()]);
+        setIndex(index() - 1);
+        break;
+
       case "KeyR":
         reset();
         break;
