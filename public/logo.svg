@@ -1,0 +1,16 @@
+<svg viewBox="-40 -40 80 80" stroke="#000000" fill="#000000" stroke-width="0.2" height="800" width="800">
+  <circle cx="0" cy="0" r="40" fill="#ffffff" />
+  <circle cx="0" cy="0" r="36" fill="#ffffff" />
+  <circle cx="0" cy="0" r="32" />
+  <circle cx="0" cy="0" r="28" stroke="#ffffff" />
+  <circle cx="0" cy="0" r="24" fill="#41b7c8" />
+  <circle cx="0" cy="0" r="20" fill="#41b7c8" />
+  <circle cx="0" cy="0" r="16" fill="#fd1b14" />
+  <circle cx="0" cy="0" r="12" fill="#fd1b14" />
+  <circle cx="0" cy="0" r="8" fill="#fff535" />
+  <circle cx="0" cy="0" r="4" fill="#fff535" />
+  <circle cx="0" cy="0" r="0" fill="#fff535" />
+  <path d="m-1 0h2M0 -1v2" />
+  <path stroke="#22c55e" stroke-width="1"
+    d="M 0.65358442,-1.4387499 V -30.129366 l 7.30489078,7.658353 5.9369168,-14.279152 3.023719,1.389868 -6.002605,14.05842 h 9.600831 z" />
+</svg>
