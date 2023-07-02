@@ -42,6 +42,8 @@ function App() {
     });
     setShow(false);
   };
+  const move = (x: boolean, length: number) =>
+    x ? setSize("x", size.x + length) : setSize("y", size.y + length);
   const getPosition = (ref: HTMLDivElement) => {
     const rect = ref.querySelector("span")!.getClientRects()[0];
     return {
@@ -73,6 +75,18 @@ function App() {
   };
   const handleKey = (e: KeyboardEvent) => {
     switch (e.code) {
+      case "KeyA":
+        move(true, -5);
+        break;
+      case "KeyD":
+        move(true, 5);
+        break;
+      case "KeyW":
+        move(false, -5);
+        break;
+      case "KeyS":
+        move(false, 5);
+        break;
       case "KeyQ":
         tauwin.appWindow.hide()!;
         reset();
