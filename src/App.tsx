@@ -104,14 +104,14 @@ function App() {
       case "KeyR":
         reset();
         break;
-      case "Space": {
+      case "Semicolon": {
         hotkey(e.altKey, center);
         break;
       }
     }
   };
   onMount(() => {
-    const shortcut = "CmdOrCtrl+Super+m";
+    const shortcut = "Super+;";
     isRegistered(shortcut)
       .then((reg) => {
         if (reg) unregister(shortcut)!;
@@ -142,7 +142,7 @@ function App() {
       <Region ref={top} height={false} show={show()} text="k" />
       <div class="flex h-1/2 w-full">
         <Region ref={left} height={true} show={show()} text="h" />
-        <Region ref={center} height={true} show={true} text="" />
+        <Region ref={center} height={true} show={show()} text=";" />
         <Region ref={right} height={true} show={show()} text="l" />
       </div>
       <Region ref={bottom} height={false} show={show()} text="j" />
