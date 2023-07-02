@@ -29,12 +29,12 @@ fn mouse_click(x: i32, y: i32) {
 }
 
 fn main() {
-    let open = CustomMenuItem::new("open".to_string(), "Open");
-    let hide = CustomMenuItem::new("hide".to_string(), "Hide");
-    let quit = CustomMenuItem::new("quit".to_string(), "Quit");
+    let mut open = CustomMenuItem::new("open".to_string(), "Open");
+    open = open.accelerator("o".to_string());
+    let mut quit = CustomMenuItem::new("quit".to_string(), "Quit");
+    quit = quit.accelerator("q".to_string());
     let tray_menu = tauri::SystemTrayMenu::new()
         .add_item(open)
-        .add_item(hide)
         .add_native_item(tauri::SystemTrayMenuItem::Separator)
         .add_item(quit);
     let system_tray = tauri::SystemTray::new().with_menu(tray_menu);
@@ -54,10 +54,6 @@ fn main() {
                         let window = Manager::get_window(app, "main").unwrap();
                         window.show().unwrap();
                         window.set_focus().unwrap();
-                    }
-                    "hide" => {
-                        let window = Manager::get_window(app, "main").unwrap();
-                        window.hide().unwrap();
                     }
                     "quit" => {
                         app.exit(0);
