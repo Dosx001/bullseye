@@ -56,8 +56,8 @@ function App() {
       if (!res) tauwin.appWindow.hide()!;
     })!;
   };
-  const hotkey = (alt: boolean, ref: HTMLDivElement) => {
-    if (alt) {
+  const hotkey = (event: KeyboardEvent, ref: HTMLDivElement) => {
+    if (event.altKey) {
       setIndex(index() + 1);
       setHistory((v) => {
         if (history.length === index()) v.push({ ...size });
@@ -68,7 +68,10 @@ function App() {
       setShow(true);
     } else {
       tauwin.appWindow.hide().then(() => {
-        invoke("mouse_click", getPosition(ref))!;
+        invoke(
+          event.shiftKey ? "right_click" : "left_click",
+          getPosition(ref)
+        )!;
         reset();
       })!;
     }
@@ -92,16 +95,16 @@ function App() {
         reset();
         break;
       case "KeyH":
-        hotkey(e.altKey, left);
+        hotkey(e, left);
         break;
       case "KeyJ":
-        hotkey(e.altKey, bottom);
+        hotkey(e, bottom);
         break;
       case "KeyK":
-        hotkey(e.altKey, top);
+        hotkey(e, top);
         break;
       case "KeyL":
-        hotkey(e.altKey, right);
+        hotkey(e, right);
         break;
       case "KeyM":
         invoke("move_mouse", getPosition(center))!;
@@ -117,7 +120,7 @@ function App() {
         reset();
         break;
       case "Semicolon":
-        hotkey(e.altKey, center);
+        hotkey(e, center);
         break;
     }
   };

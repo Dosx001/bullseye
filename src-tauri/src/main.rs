@@ -22,10 +22,17 @@ fn move_mouse(x: i32, y: i32) {
 }
 
 #[tauri::command]
-fn mouse_click(x: i32, y: i32) {
+fn left_click(x: i32, y: i32) {
     let mouse = Mouse::new();
     mouse.move_to(x, y).expect("Unable to move mouse");
     mouse.click(&Keys::LEFT).expect("Unable to click button");
+}
+
+#[tauri::command]
+fn right_click(x: i32, y: i32) {
+    let mouse = Mouse::new();
+    mouse.move_to(x, y).expect("Unable to move mouse");
+    mouse.click(&Keys::RIGHT).expect("Unable to click button");
 }
 
 fn main() {
@@ -39,7 +46,12 @@ fn main() {
         .add_item(quit);
     let system_tray = tauri::SystemTray::new().with_menu(tray_menu);
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![debug, move_mouse, mouse_click])
+        .invoke_handler(tauri::generate_handler![
+            debug,
+            move_mouse,
+            left_click,
+            right_click
+        ])
         .on_window_event(|event| {
             if let tauri::WindowEvent::CloseRequested { api, .. } = event.event() {
                 event.window().hide().unwrap();
