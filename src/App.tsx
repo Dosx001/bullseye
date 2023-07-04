@@ -103,25 +103,22 @@ function App() {
       case "KeyL":
         hotkey(e.altKey, right);
         break;
-      case "KeyM": {
+      case "KeyM":
         invoke("move_mouse", getPosition(center))!;
         reset();
         tauwin.appWindow.hide()!;
         break;
-      }
       case "KeyU":
         if (index() === -1) return;
         setSize(history()[index()]);
         setIndex(index() - 1);
         break;
-
       case "KeyR":
         reset();
         break;
-      case "Semicolon": {
+      case "Semicolon":
         hotkey(e.altKey, center);
         break;
-      }
     }
   };
   onMount(() => {
