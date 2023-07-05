@@ -1,7 +1,16 @@
-# Tauri + Solid + Typescript
+# ![logo](./src-tauri/icons/32x32.png) bullseye
 
-This template should help get you started developing with Tauri, Solid and Typescript in Vite.
+## Installation
 
-## Recommended IDE Setup
+### Arch Linux (AUR)
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+```bash
+paru -S bullseye
+```
+
+## Hotkeys
+
+| Key Binding | Action |
+| ----------- | ------ |
+| Item1       | Item1  |
+| Item2       | Item2  |
