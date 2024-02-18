@@ -83,49 +83,49 @@ function App() {
   };
   const handleKey = (e: KeyboardEvent) => {
     switch (e.code) {
+      case "Space":
+        hotkey(e, center);
+        break;
       case "KeyA":
-        move(true, -5);
-        break;
-      case "KeyD":
-        move(true, 5);
-        break;
-      case "KeyW":
-        move(false, -5);
-        break;
-      case "KeyS":
-        move(false, 5);
-        break;
-      case "KeyQ":
-        tauwin.appWindow.hide().catch(console.error);
-        reset();
-        break;
-      case "KeyH":
         hotkey(e, left);
         break;
-      case "KeyJ":
+      case "KeyD":
         hotkey(e, bottom);
         break;
-      case "KeyK":
+      case "KeyF":
+        hotkey(e, right);
+        break;
+      case "KeyS":
         hotkey(e, top);
         break;
+      case "KeyH":
+        move(true, -5);
+        break;
+      case "KeyJ":
+        move(false, 5);
+        break;
+      case "KeyK":
+        move(false, -5);
+        break;
       case "KeyL":
-        hotkey(e, right);
+        move(true, 5);
         break;
       case "KeyM":
         invoke("move_mouse", getPosition(center)).catch(console.error);
         reset();
         tauwin.appWindow.hide().catch(console.error);
         break;
-      case "KeyU":
-        if (index() === -1) return;
-        setSize(history()[index()]);
-        setIndex(index() - 1);
+      case "KeyQ":
+        tauwin.appWindow.hide().catch(console.error);
+        reset();
         break;
       case "KeyR":
         reset();
         break;
-      case "Semicolon":
-        hotkey(e, center);
+      case "KeyU":
+        if (index() === -1) return;
+        setSize(history()[index()]);
+        setIndex(index() - 1);
         break;
     }
   };
@@ -159,13 +159,13 @@ function App() {
         left: `${size.x.toString()}px`,
       }}
     >
-      <Region ref={top} height={false} show={show()} text="k" />
+      <Region ref={top} height={false} show={show()} text="s" />
       <div class="flex h-1/2 w-full">
-        <Region ref={left} height={true} show={show()} text="h" />
-        <Region ref={center} height={true} show={show()} text=";" />
-        <Region ref={right} height={true} show={show()} text="l" />
+        <Region ref={left} height={true} show={show()} text="a" />
+        <Region ref={center} height={true} show={show()} text="&nbsp;" />
+        <Region ref={right} height={true} show={show()} text="f" />
       </div>
-      <Region ref={bottom} height={false} show={show()} text="j" />
+      <Region ref={bottom} height={false} show={show()} text="d" />
     </div>
   );
 }
