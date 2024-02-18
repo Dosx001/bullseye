@@ -52,9 +52,11 @@ function App() {
     };
   };
   const blur = () => {
-    invoke("debug").then((res) => {
-      if (!res) tauwin.appWindow.hide()!;
-    })!;
+    invoke("debug")
+      .then((res) => {
+        if (!res) tauwin.appWindow.hide().catch(console.error);
+      })
+      .catch(console.error);
   };
   const hotkey = (event: KeyboardEvent, ref: HTMLDivElement) => {
     if (event.altKey) {
@@ -67,13 +69,16 @@ function App() {
       updateSize(ref);
       setShow(true);
     } else {
-      tauwin.appWindow.hide().then(() => {
-        invoke(
-          event.shiftKey ? "right_click" : "left_click",
-          getPosition(ref)
-        )!;
-        reset();
-      })!;
+      tauwin.appWindow
+        .hide()
+        .then(() => {
+          invoke(
+            event.shiftKey ? "right_click" : "left_click",
+            getPosition(ref),
+          ).catch(console.error);
+          reset();
+        })
+        .catch(console.error);
     }
   };
   const handleKey = (e: KeyboardEvent) => {
@@ -91,7 +96,7 @@ function App() {
         move(false, 5);
         break;
       case "KeyQ":
-        tauwin.appWindow.hide()!;
+        tauwin.appWindow.hide().catch(console.error);
         reset();
         break;
       case "KeyH":
@@ -107,9 +112,9 @@ function App() {
         hotkey(e, right);
         break;
       case "KeyM":
-        invoke("move_mouse", getPosition(center))!;
+        invoke("move_mouse", getPosition(center)).catch(console.error);
         reset();
-        tauwin.appWindow.hide()!;
+        tauwin.appWindow.hide().catch(console.error);
         break;
       case "KeyU":
         if (index() === -1) return;
@@ -128,14 +133,15 @@ function App() {
     const shortcut = "Super+;";
     isRegistered(shortcut)
       .then((reg) => {
-        if (reg) unregister(shortcut)!;
+        if (reg) unregister(shortcut).catch(console.error);
       })
       .finally(() => {
         register(shortcut, () => {
-          tauwin.appWindow.show()!;
-          tauwin.appWindow.setFocus()!;
-        })!;
-      })!;
+          tauwin.appWindow.show().catch(console.error);
+          tauwin.appWindow.setFocus().catch(console.error);
+        }).catch(console.error);
+      })
+      .catch(console.error);
     window.addEventListener("blur", blur);
     window.addEventListener("keydown", handleKey);
   });
