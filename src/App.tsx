@@ -9,11 +9,15 @@ import { createSignal, onCleanup, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
 
 function App() {
-  let top!: HTMLDivElement,
+  let topLeft!: HTMLDivElement,
+    top!: HTMLDivElement,
+    topRight!: HTMLDivElement,
     left!: HTMLDivElement,
     center!: HTMLDivElement,
     right!: HTMLDivElement,
-    bottom!: HTMLDivElement;
+    bottomLeft!: HTMLDivElement,
+    bottom!: HTMLDivElement,
+    bottomRight!: HTMLDivElement;
   const [show, setShow] = createSignal(false);
   const [index, setIndex] = createSignal(-1);
   const [size, setSize] = createStore({
@@ -89,14 +93,26 @@ function App() {
       case "KeyA":
         hotkey(e, left);
         break;
-      case "KeyD":
-        hotkey(e, bottom);
-        break;
       case "KeyF":
         hotkey(e, right);
         break;
+      case "KeyD":
+        hotkey(e, bottom);
+        break;
+      case "KeyI":
+        hotkey(e, bottomLeft);
+        break;
+      case "KeyO":
+        hotkey(e, bottomRight);
+        break;
       case "KeyS":
         hotkey(e, top);
+        break;
+      case "KeyE":
+        hotkey(e, topRight);
+        break;
+      case "KeyW":
+        hotkey(e, topLeft);
         break;
       case "KeyH":
         move(true, -5);
@@ -159,13 +175,21 @@ function App() {
         left: `${size.x.toString()}px`,
       }}
     >
-      <Region ref={top} height={false} show={show()} text="s" />
-      <div class="flex h-1/2 w-full">
-        <Region ref={left} height={true} show={show()} text="a" />
-        <Region ref={center} height={true} show={show()} text="&nbsp;" />
-        <Region ref={right} height={true} show={show()} text="f" />
+      <div class="flex h-1/4 w-full">
+        <Region ref={topLeft} show={show()} text="w" />
+        <Region ref={top} show={show()} text="s" />
+        <Region ref={topRight} show={show()} text="e" />
       </div>
-      <Region ref={bottom} height={false} show={show()} text="d" />
+      <div class="flex h-1/2 w-full">
+        <Region ref={left} show={show()} text="a" />
+        <Region ref={center} show={show()} text="&nbsp;" />
+        <Region ref={right} show={show()} text="f" />
+      </div>
+      <div class="flex h-1/4 w-full">
+        <Region ref={bottomLeft} show={show()} text="i" />
+        <Region ref={bottom} show={show()} text="d" />
+        <Region ref={bottomRight} show={show()} text="o" />
+      </div>
     </div>
   );
 }
