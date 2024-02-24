@@ -63,16 +63,7 @@ function App() {
       .catch(console.error);
   };
   const areaEvent = (event: KeyboardEvent, ref: HTMLDivElement) => {
-    if (event.altKey) {
-      setIndex(index() + 1);
-      setHistory(
-        history().length === index()
-          ? history().concat({ ...size })
-          : history().toSpliced(index(), 1, { ...size }),
-      );
-      updateSize(ref);
-      setShow(true);
-    } else {
+    if (event.altKey || event.shiftKey) {
       tauwin.appWindow
         .hide()
         .then(() => {
@@ -83,6 +74,15 @@ function App() {
           reset();
         })
         .catch(console.error);
+    } else {
+      setIndex(index() + 1);
+      setHistory(
+        history().length === index()
+          ? history().concat({ ...size })
+          : history().toSpliced(index(), 1, { ...size }),
+      );
+      updateSize(ref);
+      setShow(true);
     }
   };
   const handleKey = (e: KeyboardEvent) => {
