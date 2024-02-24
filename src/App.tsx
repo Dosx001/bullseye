@@ -65,11 +65,11 @@ function App() {
   const areaEvent = (event: KeyboardEvent, ref: HTMLDivElement) => {
     if (event.altKey) {
       setIndex(index() + 1);
-      setHistory((v) => {
-        if (history.length === index()) v.push({ ...size });
-        else v[index()] = { ...size };
-        return Array.from(v);
-      });
+      setHistory(
+        history().length === index()
+          ? history().concat({ ...size })
+          : history().toSpliced(index(), 1, { ...size }),
+      );
       updateSize(ref);
       setShow(true);
     } else {
