@@ -62,7 +62,7 @@ function App() {
       })
       .catch(console.error);
   };
-  const hotkey = (event: KeyboardEvent, ref: HTMLDivElement) => {
+  const areaEvent = (event: KeyboardEvent, ref: HTMLDivElement) => {
     if (event.altKey) {
       setIndex(index() + 1);
       setHistory((v) => {
@@ -88,31 +88,31 @@ function App() {
   const handleKey = (e: KeyboardEvent) => {
     switch (e.code) {
       case "Space":
-        hotkey(e, center);
+        areaEvent(e, center);
         break;
       case "KeyA":
-        hotkey(e, left);
+        areaEvent(e, left);
         break;
       case "KeyF":
-        hotkey(e, right);
+        areaEvent(e, right);
         break;
       case "KeyD":
-        hotkey(e, bottom);
+        areaEvent(e, bottom);
         break;
       case "KeyI":
-        hotkey(e, bottomLeft);
+        areaEvent(e, bottomLeft);
         break;
       case "KeyO":
-        hotkey(e, bottomRight);
+        areaEvent(e, bottomRight);
         break;
       case "KeyS":
-        hotkey(e, top);
+        areaEvent(e, top);
         break;
       case "KeyE":
-        hotkey(e, topRight);
+        areaEvent(e, topRight);
         break;
       case "KeyW":
-        hotkey(e, topLeft);
+        areaEvent(e, topLeft);
         break;
       case "KeyH":
         move(true, -5);
