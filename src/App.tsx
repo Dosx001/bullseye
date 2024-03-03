@@ -63,7 +63,7 @@ function App() {
       .catch(console.error);
   };
   const areaEvent = (event: KeyboardEvent, ref: HTMLDivElement) => {
-    if (event.altKey || event.shiftKey) {
+    if (event.altKey || event.ctrlKey) {
       tauwin.appWindow
         .hide()
         .then(() => {
