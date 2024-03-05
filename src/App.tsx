@@ -62,19 +62,20 @@ function App() {
       })
       .catch(console.error);
   };
-  const areaEvent = (event: KeyboardEvent, ref: HTMLDivElement) => {
-    if (event.altKey || event.ctrlKey) {
-      tauwin.appWindow
-        .hide()
-        .then(() => {
-          invoke(
-            event.shiftKey ? "right_click" : "left_click",
-            getPosition(ref),
-          ).catch(console.error);
-          reset();
-        })
-        .catch(console.error);
-    } else {
+  function mouseCmd(cmd: string, ref: HTMLDivElement) {
+    tauwin.appWindow
+      .hide()
+      .then(() => {
+        invoke(cmd, getPosition(ref)).catch(console.error);
+        reset();
+      })
+      .catch(console.error);
+  }
+  function areaEvent(ev: KeyboardEvent, ref: HTMLDivElement) {
+    if (ev.altKey) mouseCmd("left_click", ref);
+    else if (ev.ctrlKey) mouseCmd("right_click", ref);
+    else if (ev.shiftKey) mouseCmd("move_mouse", ref);
+    else {
       setIndex(index() + 1);
       setHistory(
         history().length === index()
@@ -84,7 +85,7 @@ function App() {
       updateSize(ref);
       setShow(true);
     }
-  };
+  }
   const handleKey = (e: KeyboardEvent) => {
     switch (e.code) {
       case "Space":
@@ -125,11 +126,6 @@ function App() {
         break;
       case "KeyL":
         move(true, 5);
-        break;
-      case "KeyM":
-        invoke("move_mouse", getPosition(center)).catch(console.error);
-        reset();
-        tauwin.appWindow.hide().catch(console.error);
         break;
       case "KeyQ":
         tauwin.appWindow.hide().catch(console.error);
