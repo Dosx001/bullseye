@@ -58,7 +58,7 @@ function App() {
   const blur = () => {
     invoke("debug")
       .then((res) => {
-        if (!res) tauwin.appWindow.hide().catch(console.error);
+        if (!res) tauwin.appWindow.hide().then(reset).catch(console.error);
       })
       .catch(console.error);
   };
@@ -128,8 +128,7 @@ function App() {
         move(true, 5);
         break;
       case "KeyQ":
-        tauwin.appWindow.hide().catch(console.error);
-        reset();
+        tauwin.appWindow.hide().then(reset).catch(console.error);
         break;
       case "KeyR":
         reset();
