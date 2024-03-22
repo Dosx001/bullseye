@@ -88,6 +88,17 @@ function App() {
   }
   const handleKey = (e: KeyboardEvent) => {
     switch (e.code) {
+      case "Semicolon":
+        tauwin.appWindow
+          .hide()
+          .then(() => {
+            invoke(e.ctrlKey ? "right_click" : "left_click", {
+              x: -1,
+              y: -1,
+            }).catch(console.error);
+          })
+          .catch(console.error);
+        break;
       case "Space":
         areaEvent(e, center);
         break;

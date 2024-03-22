@@ -24,14 +24,18 @@ fn move_mouse(x: i32, y: i32) {
 #[tauri::command]
 fn left_click(x: i32, y: i32) {
     let mouse = Mouse::new();
-    mouse.move_to(x, y).expect("Unable to move mouse");
+    if x != -1 {
+        mouse.move_to(x, y).expect("Unable to move mouse");
+    }
     mouse.click(&Keys::LEFT).expect("Unable to click button");
 }
 
 #[tauri::command]
 fn right_click(x: i32, y: i32) {
     let mouse = Mouse::new();
-    mouse.move_to(x, y).expect("Unable to move mouse");
+    if x != -1 {
+        mouse.move_to(x, y).expect("Unable to move mouse");
+    }
     mouse.click(&Keys::RIGHT).expect("Unable to click button");
 }
 
