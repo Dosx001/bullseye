@@ -1,5 +1,7 @@
 # ![logo](./src-tauri/icons/32x32.png) bullseye
 
+![gif](https://i.imgur.com/knQBD4H.gif)
+
 ## Hotkeys
 
 | Key Binding           | Action                                     |
