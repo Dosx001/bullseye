@@ -3,6 +3,7 @@ import {
   isRegistered,
   register,
   unregister,
+  unregisterAll,
 } from "@tauri-apps/api/globalShortcut";
 import Region from "components/Region";
 import { createSignal, onCleanup, onMount } from "solid-js";
@@ -152,7 +153,7 @@ function App() {
     }
   };
   onMount(() => {
-    const shortcut = "Super+;";
+    const shortcut = "Super+Shift+;";
     isRegistered(shortcut)
       .then((reg) => {
         if (reg) unregister(shortcut).catch(console.error);
@@ -170,6 +171,7 @@ function App() {
   onCleanup(() => {
     window.removeEventListener("keydown", handleKey);
     window.removeEventListener("blur", blur);
+    unregisterAll().catch(console.error);
   });
   return (
     <div
