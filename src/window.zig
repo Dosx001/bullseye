@@ -57,6 +57,9 @@ fn activate(
     window = @ptrCast(
         gtk.gtk_application_window_new(app),
     );
+    gtk.gtk_layer_init_for_window(window);
+    gtk.gtk_layer_set_layer(window, gtk.GTK_LAYER_SHELL_LAYER_TOP);
+    gtk.gtk_layer_set_keyboard_mode(window, gtk.GTK_LAYER_SHELL_KEYBOARD_MODE_EXCLUSIVE);
     gtk.gtk_window_fullscreen(window);
     go.gSignalConnect(
         window,

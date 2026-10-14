@@ -13,6 +13,7 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
         .link_system_libs = &.{
             .{ .name = "gtk4" },
+            .{ .name = "gtk4-layer-shell-0" },
         },
     });
     const log = Translator.init(translate_c, .{
