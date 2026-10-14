@@ -34,7 +34,10 @@ pub fn init() void {
     defer gtk.g_object_unref(app);
 }
 
-fn activate(app: [*c]gtk.GtkApplication, _: gtk.gpointer) callconv(.c) void {
+fn activate(
+    app: [*c]gtk.GtkApplication,
+    _: gtk.gpointer,
+) callconv(.c) void {
     const display = gtk.gdk_display_get_default();
     defer gtk.g_object_unref(display);
     const monitors = gtk.gdk_display_get_monitors(display);
@@ -55,6 +58,12 @@ fn activate(app: [*c]gtk.GtkApplication, _: gtk.gpointer) callconv(.c) void {
         gtk.gtk_application_window_new(app),
     );
     gtk.gtk_window_fullscreen(window);
+    go.gSignalConnect(
+        window,
+        "notify::is-active",
+        gtk.G_CALLBACK(check_focus),
+        null,
+    );
     gtk.gtk_css_provider_load_from_data(
         provider,
         @embedFile("styles.css"),
@@ -87,6 +96,20 @@ fn activate(app: [*c]gtk.GtkApplication, _: gtk.gpointer) callconv(.c) void {
     gtk.gtk_widget_add_controller(@ptrCast(window), controller);
     gtk.gtk_window_set_child(window, @ptrCast(grid));
     gtk.gtk_window_present(window);
+}
+
+fn check_focus(
+    _: [*c]gtk.GObject,
+    _: [*c]gtk.GParamSpec,
+    _: gtk.gpointer,
+) callconv(.c) void {
+    if (gtk.gtk_window_is_active(window) != 1) {
+        gtk.g_application_quit(@ptrCast(
+            gtk.gtk_window_get_application(
+                window,
+            ),
+        ));
+    }
 }
 
 fn update_size() void {
@@ -447,7 +470,7 @@ fn uinput_init() c_int {
         std.posix.system.exit(1);
     }
     _ = uinput.ioctl(fd, uinput.UI_SET_EVBIT, uinput.EV_KEY);
-    var name: [80]u8 = @splat(80);
+    var name: [80]u8 = @splat(0);
     @memcpy(name[0..8], "bullseye");
     _ = uinput.ioctl(
         fd,
