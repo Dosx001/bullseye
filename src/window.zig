@@ -10,11 +10,17 @@ const Region = struct {
     height: c_int,
 };
 
+const chars = [9]u8{
+    'w', 's', 'e',
+    'a', ' ', 'f',
+    'i', 'd', 'o',
+};
+
 var index: usize = 0;
 var regions: [10]Region = undefined;
-var grid: [*c]gtk.GtkGrid = undefined;
+var grid_box: [*c]gtk.GtkGrid = undefined;
+var grid_label: [*c]gtk.GtkGrid = undefined;
 var window: [*c]gtk.GtkWindow = undefined;
-
 var controller: ?*gtk.GtkEventController = undefined;
 
 pub fn init() void {
@@ -80,12 +86,23 @@ fn activate(
         .width = rect.width,
         .height = rect.height,
     };
-    grid = @ptrCast(gtk.gtk_grid_new());
+    grid_box = @ptrCast(gtk.gtk_grid_new());
+    _ = gtk.g_object_ref_sink(grid_box);
     inline for (0..9) |i| {
-        const label = gtk.gtk_label_new("●");
+        const box = gtk.gtk_box_new(
+            gtk.GTK_ORIENTATION_VERTICAL,
+            0,
+        );
+        const label = gtk.gtk_label_new(&[2]u8{ chars[i], 0 });
+        gtk.gtk_widget_set_size_request(label, 16, 16);
+        gtk.gtk_widget_add_css_class(label, "key");
+        gtk.gtk_widget_set_halign(label, gtk.GTK_ALIGN_CENTER);
+        gtk.gtk_widget_set_valign(label, gtk.GTK_ALIGN_CENTER);
+        gtk.gtk_widget_set_vexpand(label, 1);
+        gtk.gtk_box_append(@ptrCast(box), @ptrCast(label));
         gtk.gtk_grid_attach(
-            grid,
-            label,
+            grid_box,
+            box,
             @intCast(i % 3),
             @intCast(i / 3),
             1,
@@ -94,8 +111,21 @@ fn activate(
     }
     update_size();
     gtk.gtk_widget_add_controller(@ptrCast(window), controller);
-    gtk.gtk_window_set_child(window, @ptrCast(grid));
+    gtk.gtk_window_set_child(window, @ptrCast(grid_box));
     gtk.gtk_window_present(window);
+    grid_label = @ptrCast(gtk.gtk_grid_new());
+    _ = gtk.g_object_ref_sink(grid_label);
+    inline for (0..9) |i| {
+        const label = gtk.gtk_label_new("•");
+        gtk.gtk_grid_attach(
+            grid_label,
+            label,
+            @intCast(i % 3),
+            @intCast(i / 3),
+            1,
+            1,
+        );
+    }
 }
 
 fn check_focus(
@@ -113,6 +143,23 @@ fn check_focus(
 }
 
 fn update_size() void {
+    const grid = blk: switch (index) {
+        0 => {
+            gtk.gtk_window_set_child(
+                window,
+                @ptrCast(grid_box),
+            );
+            break :blk grid_box;
+        },
+        1 => {
+            gtk.gtk_window_set_child(
+                window,
+                @ptrCast(grid_label),
+            );
+            break :blk grid_label;
+        },
+        else => grid_label,
+    };
     const rect = regions[index];
     gtk.gtk_widget_set_margin_top(@ptrCast(grid), rect.y);
     gtk.gtk_widget_set_margin_start(@ptrCast(grid), rect.x);
@@ -177,11 +224,7 @@ fn shortcuts() void {
             shortcut,
         );
     }
-    inline for ([_]u8{
-        'w', 's', 'e',
-        'a', ' ', 'f',
-        'i', 'd', 'o',
-    }) |char| {
+    inline for (chars) |char| {
         const action = gtk.gtk_callback_action_new(
             update_region,
             gtk.GINT_TO_POINTER(char),
