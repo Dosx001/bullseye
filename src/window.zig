@@ -349,11 +349,28 @@ fn shortcuts() void {
         );
         const trigger =
             gtk.gtk_shortcut_trigger_parse_string(switch (btn) {
-                uinput.BTN_LEFT => "semicolon",
-                uinput.BTN_MIDDLE => "<Alt>semicolon",
+                uinput.BTN_LEFT => "<Alt>semicolon",
+                uinput.BTN_MIDDLE => "<Control><Alt>semicolon",
                 uinput.BTN_RIGHT => "<Control>semicolon",
                 else => unreachable,
             });
+        const shortcut = gtk.gtk_shortcut_new(
+            trigger,
+            action,
+        );
+        gtk.gtk_shortcut_controller_add_shortcut(
+            @ptrCast(controller),
+            shortcut,
+        );
+    }
+    {
+        const action = gtk.gtk_callback_action_new(
+            cursor_click,
+            gtk.GINT_TO_POINTER(uinput.BTN_LEFT),
+            null,
+        );
+        const trigger =
+            gtk.gtk_shortcut_trigger_parse_string("semicolon");
         const shortcut = gtk.gtk_shortcut_new(
             trigger,
             action,
