@@ -224,6 +224,24 @@ fn shortcuts() void {
             shortcut,
         );
     }
+    {
+        const action = gtk.gtk_callback_action_new(
+            quit,
+            null,
+            null,
+        );
+        const trigger = gtk.gtk_shortcut_trigger_parse_string(
+            "Escape",
+        );
+        const shortcut = gtk.gtk_shortcut_new(
+            trigger,
+            action,
+        );
+        gtk.gtk_shortcut_controller_add_shortcut(
+            @ptrCast(controller),
+            shortcut,
+        );
+    }
     inline for (chars) |char| {
         const action = gtk.gtk_callback_action_new(
             update_region,
