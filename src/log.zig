@@ -1,16 +1,24 @@
-const std = @import("std");
-const log = @import("log");
 const builtin = @import("builtin");
+const log = @import("log");
+const std = @import("std");
 
 pub fn init(io: std.Io) void {
     _ = log.notify_init("bullseye");
     if (builtin.mode != .debug) {
-        log.notify_set_app_icon("/usr/share/icons/hicolor/128x128/apps/bullseye.png");
+        log.notify_set_app_icon(
+            "/usr/share/icons/hicolor/128x128/apps/bullseye.png",
+        );
     } else {
-        var buf: [std.Io.Dir.max_path_bytes]u8 = @splat(0);
-        var len = std.process.executableDirPath(io, &buf) catch unreachable;
+        var buf: [std.Io.Dir.max_path_bytes]u8 = undefined;
+        var len = std.process.executableDirPath(
+            io,
+            &buf,
+        ) catch unreachable;
         len -= 11;
-        @memcpy(buf[len .. len + 22], "pkg/assets/128x128.png");
+        @memcpy(
+            buf[len .. len + 23],
+            "pkg/assets/128x128.png\x00",
+        );
         log.notify_set_app_icon(&buf);
     }
 }
@@ -25,7 +33,7 @@ pub fn logger(
     comptime format: []const u8,
     args: anytype,
 ) void {
-    var buf: [128]u8 = @splat(0);
+    var buf: [128]u8 = undefined;
     const tty = 1 == std.posix.system.isatty(
         std.posix.system.STDERR_FILENO,
     );
@@ -40,10 +48,11 @@ pub fn logger(
             return;
         };
     }
-    const msg = std.fmt.bufPrint(
+    const msg = std.fmt.bufPrintSentinel(
         &buf,
         format,
         args,
+        0,
     ) catch |err| {
         std.log.err("Failed to format log message: {}", .{err});
         return;
