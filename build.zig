@@ -1,4 +1,5 @@
 const std = @import("std");
+const pkg = @import("build.zig.zon");
 const Translator = @import("translate_c").Translator;
 
 pub fn build(b: *std.Build) void {
@@ -52,7 +53,9 @@ pub fn build(b: *std.Build) void {
         .root_module = exe_mod,
     });
     b.installArtifact(exe);
-
+    const options = b.addOptions();
+    options.addOption([]const u8, "version", pkg.version);
+    exe.root_module.addOptions("build", options);
     const run_cmd = b.addRunArtifact(exe);
     run_cmd.step.dependOn(b.getInstallStep());
     run_cmd.addPassthruArgs();

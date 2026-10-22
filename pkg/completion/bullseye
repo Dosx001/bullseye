@@ -1,0 +1,9 @@
+_bullseye() {
+  local cur
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  mapfile -t COMPREPLY < <(compgen -W "--help -h --version -v" -- "$cur")
+}
+
+complete -F _bullseye bullseye
+
+# ex: ft=bash

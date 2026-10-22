@@ -1,0 +1,5 @@
+#compdef bullseye
+
+_arguments \
+    '(-h --help)'{-h,--help}'[Print help]' \
+    '(-v --version)'{-v,--version}'[Print version]'
