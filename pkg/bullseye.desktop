@@ -1,0 +1,7 @@
+[Desktop Entry]
+Categories=Utility;Accessibility;GTK
+Comment=Control mouse cursor using your keyboard
+Exec=bullseye
+Icon=bullseye
+Name=bullseye
+Type=Application
