@@ -19,6 +19,16 @@
 | Ctrl + ;                      | Right-click on current mouse position      |
 | Ctrl + Alt + ;                | Middle-click on current mouse position     |
 
+## Limitations
+
+Bullseye is currently works for single-monitor setups. When multiple monitors
+are connected, it always launches on the primary monitor.
+
+There is no standard, cross-compositor method to detect which monitor the user
+is actively working on. Similarly, there is no universal method for moving a
+window between monitors across Linux desktop environments and windowing
+systems.
+
 ## Installation
 
 ### Arch Linux (AUR)
